@@ -101,9 +101,9 @@ const wordRender = (wordToGuess) => {
                addErrorsClasses()
 
                setTimeout(() => {
-                    select("#hidden-word").innerHTML = ''
+                    select("#hidden-word").innerHTML = ''.trim()
                     const splited = wordToGuess.split('')
-                    // splited.pop()
+                    splited.pop()
                     splited.forEach((letter) => {
                          select("#hidden-word").innerHTML += `<span class="bg-gray-900 text-xl text-green-300 mx-[0.5px] p-0 rounded-md w-10 h-10 text-center flex items-center justify-center text-center">${letter}</span>`
                     })
@@ -130,7 +130,7 @@ const wordRender = (wordToGuess) => {
                setTimeout(() => {
                     select("#hidden-word").innerHTML = ''.trim()
                     const splited = wordToGuess.split('')
-                    // splited.pop()
+                    splited.pop()
 
                     splited.forEach((letter) => {
                          select("#hidden-word").innerHTML += `<span class="border border-green-300 text-xl w-10 h-10 bg-gray-900 text-green-300 mx-[0.5px] p-0 rounded-md flex items-center justify-center text-center">${letter}</span>`
@@ -153,6 +153,11 @@ const wordRender = (wordToGuess) => {
           handlerClick()
      })
 
+     window.addEventListener('keypress', (e) => {
+          if (e.key === "Enter") {
+               handlerClick()
+          }
+     })
 
      select("#del").addEventListener("click", () => {
           // console.log(select("#input").value.length)
@@ -171,15 +176,11 @@ document.querySelectorAll('.letters').forEach((letter) => {
      })
 })
 
+
 window.addEventListener('keydown', (e) => {
      select('#input').focus()
 })
 
-window.addEventListener('keypress', (e) => {
-     if (e.key === "Enter") {
-          handlerClick()
-     }
-})
 
 
 // Traitement sur les données reçues
@@ -187,7 +188,7 @@ const smt = (data) => {
      const wordsArr = data.split('\n')
 
      // Rendre aléatoire
-     const wordMixedIndex = Math.floor(Math.random() * wordsArr.length + 1)
+     const wordMixedIndex = Math.floor(Math.random() * wordsArr.length)
      const wordToGuess = wordsArr[wordMixedIndex]
 
      console.log("Mot à deviner : ", wordToGuess)
@@ -199,12 +200,12 @@ const smt = (data) => {
 
      // Masquage aléatoirement de certaines lettres du mot normalisé (wordNormalized)
      const maskLetterByIndex = []
-     const numsOfLetterTomask = Math.min(3, splitedwordToGuess.filter(letter => letter !== '').length + 1)
+     const numsOfLetterTomask = Math.min(3, splitedwordToGuess.filter(letter => letter !== '').length)
      // let numsOfLetterTomask = Math.floor(Math.random() * (5 - 2 + 1)) + 2;
 
      // Choisir aléatoirement les index des lettres à masquer
      while (maskLetterByIndex.length < numsOfLetterTomask) {
-          const randomIndex = Math.floor(Math.random() * splitedwordToGuess.length + 1)
+          const randomIndex = Math.floor(Math.random() * splitedwordToGuess.length)
           if (splitedwordToGuess[randomIndex] !== '' && !maskLetterByIndex.includes(randomIndex)) {
                maskLetterByIndex.push(randomIndex)
           }
