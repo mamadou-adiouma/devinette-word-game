@@ -1,10 +1,9 @@
 "use strict"
 
-
-
 const select = (el) => {
      return document.querySelector(el)
 }
+
 
 const create = (el) => {
      return document.createElement(el)
@@ -17,10 +16,8 @@ const alphabetics = ['a', 'z', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'q', 's',
 
 // Mettre en place la structure
 const customElements = () => {
-
      // Select
      const section = select('section')
-
 
      // Create
      const h1 = create('h1')
@@ -30,7 +27,7 @@ const customElements = () => {
      const input = create('input')
      const button = create('button')
      const span = create('span')
-
+     const span2 = create('span')
 
      // Classes
      section.classList.add("w-200", "p-5", "mx-auto", "bg-gray-200")
@@ -41,7 +38,7 @@ const customElements = () => {
      span.classList.add("w-full", "block", "mt-10", "text-center")
      button.classList.add("w-full", "cursor-pointer", "text-white", "bg-blue-700", "hover:bg-blue-800", "focus:ring-4", "focus-outline-none", "focus:ring-blue-300", "font-medium", "rounded-lg", "text-sm", "sm:w-auto", "px-5", "py-2.5", "text-center")
      div.classList.add("w-full", "rounded-md", "my-15", "grid", "grid-cols-7", "gap-2", "bg-gray-100", "p-5")
-
+     span2.classList.add("bg-red-200", "order-2", "text-center", "cursor-pointer", "rounded-sm", "text-red-500", "font-extrabold", "text-lg", "p-0", "active:bg-red-300", "hover:bg-green-300")
 
      // Attrs
      p.id = "hidden-word"
@@ -50,18 +47,17 @@ const customElements = () => {
      span.id = "span"
      input.type = "text"
      input.placeholder = "Entrer le mot deviné..."
-
+     span2.id = "del"
 
      // Contents
      h1.innerText = "Deviner le mot suivant :"
      button.innerText = "Deviner"
-
+     span2.innerText = "Effacer"
 
      // append in parent
      header.append(input, button)
+     div.appendChild(span2)
      section.append(h1, p, header, span, div)
-
-
 
      //  Keyboard
      alphabetics.map((letter) => {
@@ -74,7 +70,6 @@ const customElements = () => {
 customElements()
 
 
-
 const addErrorsClasses = () => {
      select('#span').classList.add("border", "border-red-500", "text-red-600", "p-3", "mt-8", "rounded-md")
      select('#input').classList.add("border", "border-red-500", "outline-red-500", "text-red-600")
@@ -85,11 +80,12 @@ const removeErrorsClasses = () => {
      select('#input').classList.remove("border", "border-red-500", "outline-red-500", "text-red-600")
 }
 
+
 // Ecouter l'événnement input.....les actions de l'utilisateur
 const wordRender = (wordToGuess) => {
      const input = select('#input')
      //  Ecout de l'vennement clique sur le button "devinette"
-     select('button').addEventListener('click', () => {
+     const handlerClick = () => {
           console.log('Mot deviné : ', wordToGuess)
 
           if (input.value.trim() === '') {
@@ -151,10 +147,21 @@ const wordRender = (wordToGuess) => {
                     })
                }
           }
+     }
+
+     select('button').addEventListener('click', () => {
+          handlerClick()
+     })
+
+
+     select("#del").addEventListener("click", () => {
+          // console.log(select("#input").value.length)
+          const input = select("#input")
+          input.focus()
+          input.value = input.value.slice(0, input.value.length - 1)
      })
 
 }
-
 
 //  Capteur clavier.....
 document.querySelectorAll('.letters').forEach((letter) => {
@@ -164,15 +171,20 @@ document.querySelectorAll('.letters').forEach((letter) => {
      })
 })
 
-
 window.addEventListener('keydown', (e) => {
      select('#input').focus()
 })
 
+window.addEventListener('keypress', (e) => {
+     if (e.key === "Enter") {
+          handlerClick()
+     }
+})
+
 
 // Traitement sur les données reçues
-const smt = (datas) => {
-     const wordsArr = datas.split('\n')
+const smt = (data) => {
+     const wordsArr = data.split('\n')
 
      // Rendre aléatoire
      const wordMixedIndex = Math.floor(Math.random() * wordsArr.length)
@@ -232,8 +244,8 @@ const smt = (datas) => {
                }
           })
 
-          const datas = await res.text()
-          smt(datas)
+          const data = await res.text()
+          smt(data)
 
      } catch (error) {
           select('#hidden-word').innerHTML = `<span>Erreur lors du chargement des données !</span>`
