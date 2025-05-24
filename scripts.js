@@ -101,9 +101,9 @@ const wordRender = (wordToGuess) => {
                addErrorsClasses()
 
                setTimeout(() => {
-                    select("#hidden-word").innerHTML = ''.trim()
+                    select("#hidden-word").innerHTML = ''
                     const splited = wordToGuess.split('')
-                    splited.pop()
+                    splited.pop(splited[-1])
                     splited.forEach((letter) => {
                          select("#hidden-word").innerHTML += `<span class="bg-gray-900 text-xl text-green-300 mx-[0.5px] p-0 rounded-md w-10 h-10 text-center flex items-center justify-center text-center">${letter}</span>`
                     })
@@ -128,10 +128,9 @@ const wordRender = (wordToGuess) => {
 
 
                setTimeout(() => {
-                    select("#hidden-word").innerHTML = ''.trim()
+                    select("#hidden-word").innerHTML = ''
                     const splited = wordToGuess.split('')
-                    splited.pop()
-
+                    splited.pop(splited[-1])
                     splited.forEach((letter) => {
                          select("#hidden-word").innerHTML += `<span class="border border-green-300 text-xl w-10 h-10 bg-gray-900 text-green-300 mx-[0.5px] p-0 rounded-md flex items-center justify-center text-center">${letter}</span>`
                     })
@@ -223,8 +222,7 @@ const smt = (data) => {
      }
 
      // Afficher le mot masqué dans le DOM
-     splitedwordToGuess[0].toLocaleUpperCase()
-     wordMasqued[0].toLocaleUpperCase()
+
      wordMasqued.forEach((letter) => {
           select("#hidden-word").innerHTML += `<span class="bg-gray-900 text-xl text-white mx-[0.5px] p-0 rounded-md w-10 h-10 text-center flex items-center justify-center text-center">${letter}</span>`
      })
