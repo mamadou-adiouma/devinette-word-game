@@ -11,6 +11,10 @@ const create = (el) => {
 }
 
 
+const alphabetics = ['a', 'z', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 'q', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'w', 'x', 'c', 'v', 'b', 'n', '-']
+// const alphabetics = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '-']
+
+
 // Mettre en place la structure
 const customElements = () => {
 
@@ -21,6 +25,7 @@ const customElements = () => {
      // Create
      const h1 = create('h1')
      const p = create('p')
+     const div = create('div')
      const header = create('header')
      const input = create('input')
      const button = create('button')
@@ -28,14 +33,14 @@ const customElements = () => {
 
 
      // Classes
-     section.classList.add("max-w-xs", "mx-auto")
-     h1.classList.add("w-100")
-     h1.classList.add("max-w-xs", "text-2xl", "uppercase", "text-center")
-     p.classList.add("max-w-xs", "text-center", "tracking-widest", "font-bold", "my-5", "mx-auto", "p-2.5", "bg-gray-200", "border", "border-blue-300", "text-gray-900", "text-sm", "rounded-lg", "focus:border-blue-500")
-     header.classList.add("max-w-xs", "flex", "items-center", "gap-3", "flex-wrap")
-     input.classList.add("max-w-xs", "mx-auto", "my-4", "w-80", "p-2.5", "bg-gray-50", "border", "border-gray-300", "text-gray-900", "text-sm", "rounded-lg", "focus:border-blue-500")
-     span.classList.add("max-w-xs", "block", "mt-10", "text-center")
-     button.classList.add("max-w-xs", "mx-auto", "cursor-pointer", "text-white", "bg-blue-700", "hover:bg-blue-800", "focus:ring-4", "focus-outline-none", "focus:ring-blue-300", "font-medium", "rounded-lg", "text-sm", "sm:w-auto", "px-5", "py-2.5", "text-center")
+     section.classList.add("w-200", "p-5", "mx-auto", "bg-gray-200")
+     h1.classList.add("w-full", "text-2xl", "uppercase", "text-center")
+     p.classList.add("w-full", "flex", "items-center", "justify-center", "tracking-widest", "font-bold", "my-5", "p-2.5", "bg-gray-200", "border", "border-blue-300", "text-gray-900", "text-sm", "rounded-lg", "focus:border-blue-500")
+     header.classList.add("w-full", "flex", "items-center", "gap-3", "flex-wrap")
+     input.classList.add("w-full", "my-4", "p-2.5", "bg-gray-50", "border", "border-gray-300", "text-gray-900", "text-sm", "rounded-lg", "focus:border-blue-500")
+     span.classList.add("w-full", "block", "mt-10", "text-center")
+     button.classList.add("w-full", "cursor-pointer", "text-white", "bg-blue-700", "hover:bg-blue-800", "focus:ring-4", "focus-outline-none", "focus:ring-blue-300", "font-medium", "rounded-lg", "text-sm", "sm:w-auto", "px-5", "py-2.5", "text-center")
+     div.classList.add("w-full", "rounded-md", "my-15", "grid", "grid-cols-7", "gap-2", "bg-gray-100", "p-5")
 
 
      // Attrs
@@ -54,7 +59,17 @@ const customElements = () => {
 
      // append in parent
      header.append(input, button)
-     section.append(h1, p, header, span)
+     section.append(h1, p, header, span, div)
+
+
+
+     //  Keyboard
+     alphabetics.map((letter) => {
+          div.innerHTML +=
+               `
+               <button class="letters bg-blue-700 cursor-pointer rounded-sm text-white font-extrabold text-lg p-0 active:bg-green-500 hover:bg-green-500">${letter}</button>
+          `
+     })
 }
 customElements()
 
@@ -73,8 +88,10 @@ const removeErrorsClasses = () => {
 // Ecouter l'événnement input.....les actions de l'utilisateur
 const wordRender = (wordToGuess) => {
      const input = select('#input')
+     //  Ecout de l'vennement clique sur le button "devinette"
      select('button').addEventListener('click', () => {
-          console.log('Mot deviné : ', input.value)
+          console.log('Mot deviné : ', wordToGuess)
+
           if (input.value.trim() === '') {
                select('#span').innerText = "Veillez entrer un mot !"
                select('#input').value = ''
@@ -88,9 +105,14 @@ const wordRender = (wordToGuess) => {
                addErrorsClasses()
 
                setTimeout(() => {
-                    select('#hidden-word').innerText = wordToGuess.trim().charAt(0).toLocaleUpperCase() + wordToGuess.slice(1)
-                    select('#hidden-word').classList.add("text-green-600")
-               }, 500);
+                    select("#hidden-word").innerHTML = ''
+                    const splited = wordToGuess.split('')
+                    splited.pop()
+                    splited.forEach((letter) => {
+                         select("#hidden-word").innerHTML += `<span class="bg-gray-900 text-xl text-green-300 mx-[0.5px] p-0 rounded-md w-10 h-10 text-center flex items-center justify-center text-center">${letter}</span>`
+                    })
+
+               }, 1000);
 
                select('#input').focus()
                select('button').innerText = 'Recommencer'
@@ -108,9 +130,16 @@ const wordRender = (wordToGuess) => {
                select('#span').innerText = "Félicitations, réponse correcte !"
                select('#input').classList.add("border", "border-green-500", "outline-green-500", "text-green-600")
 
+
                setTimeout(() => {
-                    select('#hidden-word').innerText = wordToGuess.trim().charAt(0).toLocaleUpperCase() + wordToGuess.slice(1)
-                    select('#hidden-word').classList.add("text-green-600")
+                    select("#hidden-word").innerHTML = ''.trim()
+                    const splited = wordToGuess.split('')
+                    splited.pop()
+
+                    splited.forEach((letter) => {
+                         select("#hidden-word").innerHTML += `<span class="border border-green-300 text-xl w-10 h-10 bg-gray-900 text-green-300 mx-[0.5px] p-0 rounded-md flex items-center justify-center text-center">${letter}</span>`
+                    })
+
                }, 500);
 
                select('button').innerText = 'Continuer'
@@ -123,63 +152,72 @@ const wordRender = (wordToGuess) => {
                }
           }
      })
+
 }
+
+
+//  Capteur clavier.....
+document.querySelectorAll('.letters').forEach((letter) => {
+     letter.addEventListener('click', (e) => {
+          select('#input').focus()
+          select('#input').value += letter.innerText
+     })
+})
+
+
+window.addEventListener('keydown', (e) => {
+     select('#input').focus()
+})
 
 
 // Traitement sur les données reçues
 const smt = (datas) => {
      const wordsArr = datas.split('\n')
 
+     // Rendre aléatoire
      const wordMixedIndex = Math.floor(Math.random() * wordsArr.length)
      const wordToGuess = wordsArr[wordMixedIndex]
 
-     // ** Enlever les accents du mot / détacher les lettres / séparer les avec (_) / Supprimer les espaces
-     // ** Enlever le dernier (_)
-     const wordNormalized = wordToGuess.normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, '') // enlevement des accents......
-          .split('')
-          .join('')
-          .trim()
-     //.replace(/_$/, '')  // ** Enlever le dernier underscare (_) du mot
+     console.log("Mot à deviner : ", wordToGuess)
 
+     // Mot à deviner
+     // Separer les lettres
+     const splitedwordToGuess = wordToGuess.split('')
+     splitedwordToGuess.pop()
 
      // Masquage aléatoirement de certaines lettres du mot normalisé (wordNormalized)
-     const lettersNormalized = wordNormalized.split('')
      const maskLetterByIndex = []
-     const numsOfLetterTomask = Math.min(3, lettersNormalized.filter(letter => letter !== '').length) // Choisir seulement les lettres (3lettres) et ignorer les (_)
-
-     console.log(lettersNormalized)
-     console.log(numsOfLetterTomask)
+     // const numsOfLetterTomask = Math.min(3, splitedwordToGuess.filter(letter => letter !== '').length)
+     let numsOfLetterTomask = Math.floor(Math.random() * (5 - 2 + 1)) + 2;
 
      // Choisir aléatoirement les index des lettres à masquer
      while (maskLetterByIndex.length < numsOfLetterTomask) {
-          const randomIndex = Math.floor(Math.random() * lettersNormalized.length)
-
-          if (lettersNormalized[randomIndex] !== '' && !maskLetterByIndex.includes(randomIndex)) {
+          const randomIndex = Math.floor(Math.random() * splitedwordToGuess.length)
+          if (splitedwordToGuess[randomIndex] !== '' && !maskLetterByIndex.includes(randomIndex)) {
                maskLetterByIndex.push(randomIndex)
           }
+
      }
 
      // Le mot final masqué
-     const wordMasqued = [...lettersNormalized]
+     const wordMasqued = [...splitedwordToGuess]   // La variable wordMasqued prend une cipie du tableau original
 
      // Boucler sur le nouveau mot 
      for (const index of maskLetterByIndex) {
           if (wordMasqued[index] !== '') {
-               wordMasqued[index] = `�`
-               // wordMasqued[index] = `...`
+               wordMasqued[index] = `🟩`
           }
      }
 
-     const finalMaskedWord = wordMasqued.join('')
-     select('#hidden-word').innerText = finalMaskedWord.trim().charAt(0).toLocaleUpperCase() + finalMaskedWord.slice(1)
-     wordRender(wordToGuess)
+     // Afficher le mot masqué dans le DOM
+     splitedwordToGuess[0].toLocaleUpperCase()
+     wordMasqued[0].toLocaleUpperCase()
+     wordMasqued.forEach((letter) => {
+          select("#hidden-word").innerHTML += `<span class="bg-gray-900 text-xl text-white mx-[0.5px] p-0 rounded-md w-10 h-10 text-center flex items-center justify-center text-center">${letter}</span>`
+     })
 
-     console.log('Mot normalisé : ', wordNormalized)
-     console.log('Index mot à deviner: ', wordMixedIndex)
-     console.log('Mot à deviner par le user : ', wordToGuess)
-     console.log('Mot masqué : ', finalMaskedWord)
-     console.log('Mot deviné par le user : ', wordRender(wordToGuess))
+     //  Mot à trouver
+     wordRender(wordToGuess)
 }
 
 
@@ -190,7 +228,7 @@ const smt = (datas) => {
                method: 'GET',
                headers: {
                     'Content-Type': 'text/plain',
-                    'Accept-Charset': 'utf-8',
+                    'Accept-Charset': 'UTF-8',
                }
           })
 
