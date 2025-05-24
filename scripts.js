@@ -30,14 +30,14 @@ const customElements = () => {
      const span2 = create('span')
 
      // Classes
-     section.classList.add("w-200", "p-5", "mx-auto", "bg-gray-200", "sm:w-sm")
+     section.classList.add("w-200", "p-5", "mx-auto", "bg-gray-200")
      h1.classList.add("w-full", "text-2xl", "uppercase", "text-center")
      p.classList.add("w-full", "flex", "items-center", "justify-center", "tracking-widest", "font-bold", "my-5", "p-2.5", "bg-gray-200", "border", "border-blue-300", "text-gray-900", "text-sm", "rounded-lg", "focus:border-blue-500")
      header.classList.add("w-full", "flex", "items-center", "gap-3", "flex-wrap")
      input.classList.add("w-full", "my-4", "p-2.5", "bg-gray-50", "border", "border-gray-300", "text-gray-900", "text-sm", "rounded-lg", "focus:border-blue-500")
      span.classList.add("w-full", "block", "mt-10", "text-center")
      button.classList.add("w-full", "cursor-pointer", "text-white", "bg-blue-700", "hover:bg-blue-800", "focus:ring-4", "focus-outline-none", "focus:ring-blue-300", "font-medium", "rounded-lg", "text-sm", "sm:w-auto", "px-5", "py-2.5", "text-center")
-     div.classList.add("w-full", "sm:grid-cols-3", "rounded-md", "my-15", "grid", "grid-cols-7", "gap-2", "bg-gray-100", "p-5")
+     div.classList.add("w-full", "rounded-md", "my-15", "grid", "grid-cols-7", "gap-2", "bg-gray-100", "p-5")
      span2.classList.add("bg-red-200", "order-2", "text-center", "cursor-pointer", "rounded-sm", "text-red-500", "font-extrabold", "text-lg", "p-0", "active:bg-red-300", "hover:bg-green-300")
 
      // Attrs
