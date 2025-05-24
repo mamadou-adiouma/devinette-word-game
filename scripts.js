@@ -200,7 +200,7 @@ const smt = (datas) => {
      }
 
      // Le mot final masqué
-     const wordMasqued = [...splitedwordToGuess]   // La variable wordMasqued prend une cipie du tableau original
+     const wordMasqued = [...splitedwordToGuess]   // La variable wordMasqued prend une copie du tableau original
 
      // Boucler sur le nouveau mot 
      for (const index of maskLetterByIndex) {
