@@ -187,8 +187,8 @@ const smt = (datas) => {
 
      // Masquage aléatoirement de certaines lettres du mot normalisé (wordNormalized)
      const maskLetterByIndex = []
-     // const numsOfLetterTomask = Math.min(3, splitedwordToGuess.filter(letter => letter !== '').length)
-     let numsOfLetterTomask = Math.floor(Math.random() * (5 - 2 + 1)) + 2;
+     const numsOfLetterTomask = Math.min(3, splitedwordToGuess.filter(letter => letter !== '').length)
+     // let numsOfLetterTomask = Math.floor(Math.random() * (5 - 2 + 1)) + 2;
 
      // Choisir aléatoirement les index des lettres à masquer
      while (maskLetterByIndex.length < numsOfLetterTomask) {
