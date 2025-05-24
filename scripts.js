@@ -103,7 +103,7 @@ const wordRender = (wordToGuess) => {
                setTimeout(() => {
                     select("#hidden-word").innerHTML = ''
                     const splited = wordToGuess.split('')
-                    splited.pop(splited[-1])
+                    // splited.pop(splited[-1])
                     splited.forEach((letter) => {
                          select("#hidden-word").innerHTML += `<span class="bg-gray-900 text-xl text-green-300 mx-[0.5px] p-0 rounded-md w-10 h-10 text-center flex items-center justify-center text-center">${letter}</span>`
                     })
@@ -130,7 +130,7 @@ const wordRender = (wordToGuess) => {
                setTimeout(() => {
                     select("#hidden-word").innerHTML = ''
                     const splited = wordToGuess.split('')
-                    splited.pop(splited[-1])
+                    // splited.pop(splited[-1])
                     splited.forEach((letter) => {
                          select("#hidden-word").innerHTML += `<span class="border border-green-300 text-xl w-10 h-10 bg-gray-900 text-green-300 mx-[0.5px] p-0 rounded-md flex items-center justify-center text-center">${letter}</span>`
                     })
@@ -184,7 +184,8 @@ window.addEventListener('keydown', (e) => {
 
 // Traitement sur les données reçues
 const smt = (data) => {
-     const wordsArr = data.split('\n')
+     const wordsArr = data.split('\n').map(word => word.trim()).filter(word => word.trim() !== '')  // enlever l'espace
+     console.log(wordsArr);
 
      // Rendre aléatoire
      const wordMixedIndex = Math.floor(Math.random() * wordsArr.length)
@@ -195,7 +196,7 @@ const smt = (data) => {
      // Mot à deviner
      // Separer les lettres
      const splitedwordToGuess = wordToGuess.split('')
-     splitedwordToGuess.pop()
+     // splitedwordToGuess.pop()
 
      // Masquage aléatoirement de certaines lettres du mot normalisé (wordNormalized)
      const maskLetterByIndex = []
@@ -224,7 +225,9 @@ const smt = (data) => {
      // Afficher le mot masqué dans le DOM
 
      wordMasqued.forEach((letter) => {
-          select("#hidden-word").innerHTML += `<span class="bg-gray-900 text-xl text-white mx-[0.5px] p-0 rounded-md w-10 h-10 text-center flex items-center justify-center text-center">${letter}</span>`
+          if (letter !== ''.trim()) {
+               select("#hidden-word").innerHTML += `<span class="bg-gray-900 text-xl text-white mx-[0.5px] p-0 rounded-md w-10 h-10 text-center flex items-center justify-center text-center">${letter}</span>`
+          }
      })
 
      //  Mot à trouver
